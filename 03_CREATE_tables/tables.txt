@@ -1,0 +1,89 @@
+USE book;
+
+
+CREATE TABLE extraction
+(
+idLiv INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+title VARCHAR(128) NOT NULL,
+PRIMARY KEY (idLiv),
+author VARCHAR(128),
+genre VARCHAR(128),
+height INT(3),
+publisher VARCHAR(128)
+);
+
+DROP TABLE IF EXISTS livreedition
+DROP TABLE IF EXISTS livreauteur;
+DROP TABLE IF EXISTS livregenre;
+DROP TABLE IF EXISTS livre;
+DROP TABLE IF EXISTS auteur;
+DROP TABLE IF EXISTS genre;
+DROP TABLE IF EXISTS edition;
+
+
+CREATE TABLE genre(
+  idGre int(3) unsigned NOT NULL AUTO_INCREMENT,
+  libGre varchar(128) NOT NULL,
+  PRIMARY KEY (idGre)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE auteur
+(
+   idAut INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+   nomAut VARCHAR(128) NOT NULL,
+   PRIMARY KEY (idAut)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE edition
+(
+   idEdi INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+   libEdi VARCHAR(128) NOT NULL,
+   PRIMARY KEY (idEdi)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE livre
+(
+   idLiv INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+   libLiv VARCHAR(128) NOT NULL,
+   hautLiv INT(3),
+   PRIMARY KEY (idLiv)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+SHOW TABLES;
+
+
+CREATE TABLE livregenre (
+  idLiv int(10) unsigned NOT NULL,
+  idGre int(10) unsigned NOT NULL,
+  UNIQUE KEY (idLiv,idGre),
+  CONSTRAINT fk_livre
+  FOREIGN KEY (idLiv)
+  REFERENCES livre(idLiv),
+  CONSTRAINT fk_genre
+  FOREIGN KEY (idGre)
+  REFERENCES genre(idGre)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE livreauteur (
+  idLiv int(10) unsigned NOT NULL,
+  idAut int(10) unsigned NOT NULL,
+  UNIQUE KEY (idLiv,idAut),
+  CONSTRAINT fk_book
+  FOREIGN KEY (idLiv)
+  REFERENCES livre(idLiv),
+  CONSTRAINT fk_auteur
+  FOREIGN KEY (idAut)
+  REFERENCES auteur(idAut)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE livreedition (
+  idLiv int(10) unsigned NOT NULL,
+  idEdi int(10) unsigned NOT NULL,
+  UNIQUE KEY (idLiv,idEdi),
+  CONSTRAINT fk_lili
+  FOREIGN KEY (idLiv)
+  REFERENCES livre(idLiv),
+  CONSTRAINT fk_edition
+  FOREIGN KEY (idEdi)
+  REFERENCES edition(idEdi)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

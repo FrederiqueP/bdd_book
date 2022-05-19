@@ -1,0 +1,67 @@
+
+
+
+SELECT DISTINCT genre 
+FROM 		extraction;
+
+SELECT DISTINCT l.idLiv, g.idGre
+FROM 		extraction e
+INNER JOIN 	genre g ON g.libGre = e.genre
+INNER JOIN 	livre l ON l.libLiv = e.title;
+
+SELECT DISTINCT author
+FROM 		extraction 
+WHERE 		author IS NOT NULL
+AND   		author <> '';
+
+SELECT DISTINCT l.idLiv, a.idAut
+FROM 			extraction e
+INNER JOIN 		auteur a ON a.nomAut = e.author
+INNER JOIN 		livre l ON l.libLiv = e.title;
+
+
+SELECT DISTINCT publisher
+FROM 		extraction 
+WHERE 		publisher IS NOT NULL
+AND   		publisher <> '';
+
+
+SELECT DISTINCT l.idLiv, a.idAut
+FROM 			extraction e
+INNER JOIN 		auteur a ON a.nomAut = e.author
+INNER JOIN 		livre l ON l.libLiv = e.title;
+
+SELECT 		liv.libLiv, aut.nomAut, gre.libGre, liv.hautLiv, edi.libEdi
+FROM 		livre liv
+LEFT JOIN 	livreauteur lar ON lar.idliv = liv.idLiv
+LEFT JOIN 	auteur aut ON aut.idAut = lar.idAut
+INNER JOIN 	livregenre lgr ON lgr.idliv = liv.idLiv
+INNER JOIN 	genre gre ON gre.idGre = lgr.idGre
+LEFT JOIN 	livreedition led ON led.idliv = liv.idLiv
+LEFT JOIN 	edition edi ON edi.idEdi = led.idEdi
+ORDER BY 	liv.hautLiv DESC ;
+
+SELECT 		gre.libGre, MAX(liv.hautLiv) Hauteur
+FROM 		livre liv
+INNER JOIN 	livregenre lgr ON lgr.idliv = liv.idLiv
+INNER JOIN 	genre gre ON gre.idGre = lgr.idGre
+GROUP BY	gre.libGre
+ORDER BY 	Hauteur DESC;
+
+
+SELECT * FROM extraction;
+SELECT * FROM genre;
+SELECT * FROM auteur;
+SELECT * FROM livre;
+
+
+
+
+ramener les genres classer par hauteur genre moyenne de la hauteur des livres 
+SELECT 		gre.libGre, AVG(liv.hautLiv) Hauteur
+FROM 		livre liv
+INNER JOIN 	livregenre lgr ON lgr.idliv = liv.idLiv
+INNER JOIN 	genre gre ON gre.idGre = lgr.idGre
+GROUP BY	gre.libGre
+ORDER BY 	Hauteur DESC;
+
